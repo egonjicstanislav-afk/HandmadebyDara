@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handmade by DARA | Unikatne pletene torbe</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Lato', sans-serif; }
+  .serif { font-family: 'Playfair Display', serif; }
+  .modal-backdrop { display:none; position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.55); align-items:center; justify-content:center; }
+  .modal-backdrop.open { display:flex; }
+  .slide-right { transform:translateX(100%); transition:transform .35s cubic-bezier(.4,0,.2,1); }
+  .slide-right.open { transform:translateX(0); }
+  input, textarea, select { font-family:'Lato',sans-serif; }
+  .tab-content { display:none; }
+  .tab-content.active { display:block; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  .fade-up { animation: fadeUp .7s ease both; }
+  .product-img { transition: transform .5s ease; }
+  .product-card:hover .product-img { transform:scale(1.06); }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  ::-webkit-scrollbar { width:5px; }
+  ::-webkit-scrollbar-track { background:#f5f0ea; }
+  ::-webkit-scrollbar-thumb { background:#b8835a; border-radius:3px; }
+</style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+<!-- ════ NAV ════ -->
+<nav class="bg-white border-b border-stone-200 sticky top-0 z-40 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="#" class="serif text-2xl font-bold tracking-widest text-amber-900">
+      Handmade <span class="text-stone-400 font-normal italic">by</span> DARA
+    </a>
+    <div class="hidden md:flex gap-8 text-sm font-light tracking-wide">
+      <a href="#kolekcija" class="hover:text-amber-700 transition">Kolekcija</a>
+      <a href="#o-nama" class="hover:text-amber-700 transition">O nama</a>
+      <a href="#kontakt" class="hover:text-amber-700 transition">Kontakt</a>
+    </div>
+    <button onclick="openCart()" class="relative flex items-center gap-2 border border-stone-300 hover:border-amber-700 px-4 py-2 text-sm transition group">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 group-hover:text-amber-700 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      Korpa
+      <span id="cart-badge" class="bg-amber-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ════ HERO ════ -->
+<header class="relative overflow-hidden bg-stone-100" style="min-height:88vh">
+  <div class="absolute inset-0 grid gap-0.5 opacity-35" style="grid-template-columns:1.1fr 1fr 1fr; grid-template-rows:1fr 1fr;">
+    <div class="overflow-hidden" style="grid-row:1/3"><img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80" class="w-full h-full object-cover" alt=""></div>
+    <div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover" alt=""></div>
+    <div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover" alt=""></div>
+    <div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover" alt=""></div>
+    <div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover" alt=""></div>
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-r from-stone-100 via-stone-100/88 to-stone-50/30"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6 flex items-center" style="min-height:88vh">
+    <div class="max-w-xl fade-up">
+      <p class="text-xs tracking-[.3em] uppercase text-amber-700 mb-5 flex items-center gap-3">
+        <span class="w-10 h-px bg-amber-700 inline-block"></span>Nova kolekcija 2025
+      </p>
+      <h1 class="serif text-5xl md:text-[62px] font-bold leading-[1.1] text-stone-900 mb-6">
+        Italijanska<br>elegancija,<br><em class="text-amber-800 font-normal">ručno tkana</em><br>za vas.
+      </h1>
+      <p class="text-base text-stone-600 font-light leading-relaxed mb-10 max-w-md">
+        Svaka torba nastaje ručno, od premium materijala direktno iz Italije. Jedinstven komad koji nosi Darin potpis.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#kolekcija" class="bg-stone-900 text-white px-8 py-3.5 text-xs tracking-widest uppercase hover:bg-amber-800 transition">Istražite kolekciju</a>
+        <a href="#o-nama" class="border border-stone-400 text-stone-700 px-8 py-3.5 text-xs tracking-widest uppercase hover:border-amber-700 hover:text-amber-800 transition">Naša priča</a>
+      </div>
+      <div class="flex gap-10 mt-12 pt-8 border-t border-stone-300">
+        <div><div class="serif text-3xl text-stone-900">100%</div><div class="text-xs tracking-widest uppercase text-stone-500 mt-1">Ručni rad</div></div>
+        <div><div class="serif text-3xl text-stone-900">🇮🇹</div><div class="text-xs tracking-widest uppercase text-stone-500 mt-1">Materijali</div></div>
+        <div><div class="serif text-3xl text-stone-900">∞</div><div class="text-xs tracking-widest uppercase text-stone-500 mt-1">Ljubav u svakom bodu</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ════ TICKER ════ -->
+<div class="bg-amber-900 overflow-hidden py-3">
+  <div style="display:flex; white-space:nowrap; animation:marquee 30s linear infinite">
+    <span style="display:flex">
+      <span class="text-amber-100 text-xs tracking-[.22em] uppercase px-10">✦ Merino vuna iz Italije</span>
+      <span class="text-amber-100 text-xs tracking-[.22em] uppercase px-10">✦ Svaki komad jedinstven</span>
+      <span class="text-amber-100 text-xs tracking-[.22em] uppercase px-10">✦ Dostava pouzećem — BiH · SRB · CG</span>
+      <span class="text-amber-100 text-xs tracking-[.22em] uppercase px-10">✦ Personalizovane narudžbe</span>
+      <span class="text-amber-100 text-xs tracking-[.22em] uppercase px-10">✦ Handmade by DARA</span>
+      <span class="text-amber-100 text-xs tracking-[.22em] uppercase px-10">✦ Merino vuna iz Italije</span>
+      <span class="text-amber-100 text-xs tracking-[.22em] uppercase px-10">✦ Svaki komad jedinstven</span>
+      <span class="text-amber-100 text-xs tracking-[.22em] uppercase px-10">✦ Dostava pouzećem — BiH · SRB · CG</span>
+      <span class="text-amber-100 text-xs tracking-[.22em] uppercase px-10">✦ Personalizovane narudžbe</span>
+      <span class="text-amber-100 text-xs tracking-[.22em] uppercase px-10">✦ Handmade by DARA</span>
+    </span>
+  </div>
+</div>
+
+<!-- ════ O NAMA ════ -->
+<section id="o-nama" class="py-24 max-w-7xl mx-auto px-6">
+  <div class="grid md:grid-cols-2 gap-16 items-center">
+    <div>
+      <p class="text-xs tracking-[.28em] uppercase text-amber-700 mb-4 flex items-center gap-3"><span class="w-8 h-px bg-amber-700 inline-block"></span>Naša priča</p>
+      <h2 class="serif text-4xl md:text-5xl font-bold text-stone-900 leading-tight mb-6">Gdje tradicija<br><em class="font-normal text-amber-800">susreće stil</em></h2>
+      <p class="text-stone-600 font-light leading-relaxed mb-5">Dara je svoju strast prema pletenju pretvorila u pravu umetnost. Koristeći isključivo autentične italijanske materijale — od fine merino vune do svilenih konaca iz Firence — svaka torba nosi pečat savjesnog zanatstva i moderne elegancije.</p>
+      <p class="text-stone-600 font-light leading-relaxed">Svaki komad radi ručno, bodom po bod, s potpunom posvećenošću kvalitetu koji se vidi, osjeća i traje godinama.</p>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <div class="overflow-hidden" style="aspect-ratio:3/4"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover hover:scale-105 transition duration-500" alt="Dara"></div>
+      <div class="overflow-hidden mt-10" style="aspect-ratio:3/4"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover hover:scale-105 transition duration-500" alt="Materijali"></div>
+    </div>
+  </div>
+  <!-- Features row -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-stone-200 border border-stone-200 mt-20">
+    <div class="bg-white p-8 hover:bg-amber-50 transition"><div class="text-3xl mb-4">🇮🇹</div><h3 class="serif text-lg font-bold mb-2">Italijanski materijali</h3><p class="text-sm text-stone-500 font-light leading-relaxed">Firentinska merino vuna i toskanska svila.</p></div>
+    <div class="bg-white p-8 hover:bg-amber-50 transition"><div class="text-3xl mb-4">🧵</div><h3 class="serif text-lg font-bold mb-2">Čisti ručni rad</h3><p class="text-sm text-stone-500 font-light leading-relaxed">Bez mašina — svaki bod Darinih ruku.</p></div>
+    <div class="bg-white p-8 hover:bg-amber-50 transition"><div class="text-3xl mb-4">💎</div><h3 class="serif text-lg font-bold mb-2">Jedinstven komad</h3><p class="text-sm text-stone-500 font-light leading-relaxed">Ne postoji ista kopija nigdje na svijetu.</p></div>
+    <div class="bg-white p-8 hover:bg-amber-50 transition"><div class="text-3xl mb-4">📦</div><h3 class="serif text-lg font-bold mb-2">Brza dostava</h3><p class="text-sm text-stone-500 font-light leading-relaxed">Pouzećem — BiH, Srbija, Crna Gora.</p></div>
+  </div>
+</section>
+
+<!-- ════ KOLEKCIJA ════ -->
+<section id="kolekcija" class="py-16 bg-stone-100">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-end justify-between mb-12 pb-6 border-b border-stone-300">
+      <div>
+        <p class="text-xs tracking-[.28em] uppercase text-amber-700 mb-3 flex items-center gap-3"><span class="w-8 h-px bg-amber-700 inline-block"></span>Dostupni modeli</p>
+        <h2 class="serif text-4xl md:text-5xl font-bold text-stone-900">Naša <em class="font-normal text-amber-800">kolekcija</em></h2>
+      </div>
+      <span id="product-count-label" class="text-sm text-stone-400 font-light hidden md:block"></span>
+    </div>
+    <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </div>
+</section>
+
+<!-- ════ PROMO ════ -->
+<section class="relative overflow-hidden py-24 bg-stone-900">
+  <div class="absolute inset-0 opacity-20"><img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1400&q=70" class="w-full h-full object-cover" alt=""></div>
+  <div class="relative z-10 text-center px-6">
+    <p class="text-xs tracking-[.3em] uppercase text-amber-400 mb-4">Posebna usluga</p>
+    <h2 class="serif text-4xl md:text-5xl text-white font-bold leading-tight mb-5">Torba <em class="font-normal text-amber-300">po vašoj mjeri</em></h2>
+    <p class="text-stone-400 font-light mb-8 max-w-md mx-auto text-sm">Odaberite boje, veličinu i materijal. Dara će za vas isplesti savršenu torbu.</p>
+    <a href="#kontakt" class="inline-block bg-amber-700 text-white px-10 py-4 text-xs tracking-widest uppercase hover:bg-amber-600 transition">Naruči po mjeri</a>
+  </div>
+</section>
+
+<!-- ════ RECENZIJE ════ -->
+<section class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <p class="text-xs tracking-[.28em] uppercase text-amber-700 mb-3">Što kažu kupci</p>
+      <h2 class="serif text-4xl font-bold text-stone-900">Svjedočanstva <em class="font-normal text-amber-800">zadovoljnih</em></h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-stone-50 p-8 border border-stone-100">
+        <div class="text-amber-500 text-lg mb-4">★★★★★</div>
+        <p class="serif text-lg italic text-stone-700 leading-relaxed mb-6">"Materijal je nevjerovatno mekan a izrada impresivna. Dobila sam toliko komplimenta!"</p>
+        <div class="text-xs tracking-widest uppercase text-stone-400">— Milica K., Sarajevo</div>
+      </div>
+      <div class="bg-amber-50 p-8 border border-amber-100">
+        <div class="text-amber-500 text-lg mb-4">★★★★★</div>
+        <p class="serif text-lg italic text-stone-700 leading-relaxed mb-6">"Naručila sam po mjeri u mojim bojama. Dara je bila fantastična i rezultat je prevazišao sva očekivanja!"</p>
+        <div class="text-xs tracking-widest uppercase text-stone-400">— Ana P., Beograd</div>
+      </div>
+      <div class="bg-stone-50 p-8 border border-stone-100">
+        <div class="text-amber-500 text-lg mb-4">★★★★★</div>
+        <p class="serif text-lg italic text-stone-700 leading-relaxed mb-6">"Ovo je pravi luksuz. Svaki bod govori o posvećenosti. Ovo je moj treći komad od Dare!"</p>
+        <div class="text-xs tracking-widest uppercase text-stone-400">— Jovana M., Podgorica</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ KONTAKT ════ -->
+<section id="kontakt" class="py-24 bg-stone-100">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-start">
+    <div>
+      <p class="text-xs tracking-[.28em] uppercase text-amber-700 mb-4 flex items-center gap-3"><span class="w-8 h-px bg-amber-700 inline-block"></span>Kontaktirajte nas</p>
+      <h2 class="serif text-4xl font-bold text-stone-900 leading-tight mb-6">Razgovarajmo<br><em class="font-normal text-amber-800">o vašoj torbi</em></h2>
+      <p class="text-stone-600 font-light leading-relaxed mb-8">Za personalizovane narudžbe, pitanja o dostupnosti ili materijalu — Dara je tu za vas.</p>
+      <div class="space-y-5">
+        <div class="flex gap-4"><span class="text-xl mt-0.5">📍</span><div><div class="text-xs tracking-widest uppercase text-amber-700 mb-1">Dostava u</div><div class="text-sm text-stone-600">BiH · Srbija · Crna Gora</div></div></div>
+        <div class="flex gap-4"><span class="text-xl mt-0.5">📧</span><div><div class="text-xs tracking-widest uppercase text-amber-700 mb-1">Email</div><div class="text-sm text-stone-600">dara@handmadebydara.com</div></div></div>
+        <div class="flex gap-4"><span class="text-xl mt-0.5">📸</span><div><div class="text-xs tracking-widest uppercase text-amber-700 mb-1">Instagram</div><div class="text-sm text-stone-600">@handmadebydara</div></div></div>
+      </div>
+    </div>
+    <div class="bg-white p-8 shadow-sm">
+      <h3 class="serif text-xl mb-6 text-stone-900">Pošaljite poruku</h3>
+      <form onsubmit="sendContact(event)" class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Ime i prezime</label><input type="text" class="w-full border border-stone-200 bg-stone-50 px-4 py-3 text-sm focus:outline-none focus:border-amber-500 transition" required></div>
+          <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Email</label><input type="email" class="w-full border border-stone-200 bg-stone-50 px-4 py-3 text-sm focus:outline-none focus:border-amber-500 transition" required></div>
+        </div>
+        <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Tema</label>
+          <select class="w-full border border-stone-200 bg-stone-50 px-4 py-3 text-sm focus:outline-none focus:border-amber-500 transition">
+            <option>Narudžba po mjeri</option><option>Pitanje o proizvodu</option><option>Dostava</option><option>Ostalo</option>
+          </select>
+        </div>
+        <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Poruka</label><textarea rows="4" class="w-full border border-stone-200 bg-stone-50 px-4 py-3 text-sm focus:outline-none focus:border-amber-500 transition resize-none" placeholder="Opišite željene boje, veličinu..." required></textarea></div>
+        <button type="submit" class="w-full bg-stone-900 text-white py-4 text-xs tracking-widest uppercase hover:bg-amber-800 transition">Pošalji poruku</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOOTER ════ -->
+<footer class="bg-stone-900 text-white pt-16 pb-8">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-4 gap-10 mb-12 pb-12 border-b border-stone-700">
+      <div class="md:col-span-2">
+        <div class="serif text-2xl font-bold tracking-widest mb-4">Handmade <span class="text-amber-500 font-normal italic">by</span> DARA</div>
+        <p class="text-stone-400 font-light text-sm leading-relaxed max-w-xs">Ručno pletene torbe od talijanskih materijala. Svaki komad jedinstven — baš kao vi.</p>
+      </div>
+      <div>
+        <div class="text-xs tracking-widest uppercase text-amber-500 mb-4">Navigacija</div>
+        <ul class="space-y-2 text-sm text-stone-400 font-light">
+          <li><a href="#kolekcija" class="hover:text-white transition">Kolekcija</a></li>
+          <li><a href="#o-nama" class="hover:text-white transition">O nama</a></li>
+          <li><a href="#kontakt" class="hover:text-white transition">Kontakt</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-xs tracking-widest uppercase text-amber-500 mb-4">Pratite nas</div>
+        <ul class="space-y-2 text-sm text-stone-400 font-light">
+          <li><a href="#" class="hover:text-white transition">Instagram</a></li>
+          <li><a href="#" class="hover:text-white transition">Facebook</a></li>
+          <li><a href="#kontakt" class="hover:text-white transition">Narudžba po mjeri</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-500">
+      <span>© 2025 Handmade by DARA. Sva prava zadržana. 🇮🇹</span>
+      <button onclick="openAdminModal()" class="hover:text-amber-500 transition tracking-widest uppercase">⚙ Admin panel</button>
+    </div>
+  </div>
+</footer>
+
+<!-- ════ CART SIDEBAR ════ -->
+<div id="cart-overlay" class="fixed inset-0 bg-black/50 z-50 hidden" onclick="closeCart()"></div>
+<div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 slide-right flex flex-col shadow-2xl">
+  <div class="flex items-center justify-between px-7 py-6 border-b border-stone-100">
+    <h3 class="serif text-2xl font-bold">Vaša korpa</h3>
+    <button onclick="closeCart()" class="text-2xl text-stone-400 hover:text-stone-800 transition leading-none">&times;</button>
+  </div>
+  <div id="cart-items-list" class="flex-1 overflow-y-auto px-7 py-4"></div>
+  <div class="px-7 pb-8 border-t border-stone-100 pt-5">
+    <div class="flex justify-between items-center mb-5">
+      <span class="text-xs tracking-widest uppercase text-stone-400">Ukupno</span>
+      <span class="serif text-3xl font-bold text-stone-900" id="cart-total">0 KM</span>
+    </div>
+    <button onclick="openOrderModal()" class="w-full bg-amber-800 text-white py-4 text-xs tracking-widest uppercase hover:bg-amber-700 transition mb-2">Nastavi na narudžbu →</button>
+    <button onclick="closeCart()" class="w-full border border-stone-200 text-stone-600 py-3 text-xs tracking-widest uppercase hover:border-stone-400 transition">Nastavi kupovinu</button>
+  </div>
+</div>
+
+<!-- ════ ORDER MODAL ════ -->
+<div id="order-modal" class="modal-backdrop" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="bg-white max-w-lg w-full mx-4 max-h-[93vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-8 py-5 border-b bg-stone-50">
+      <h2 class="serif text-2xl font-bold">Podaci za dostavu</h2>
+      <button onclick="document.getElementById('order-modal').classList.remove('open')" class="text-2xl text-stone-400 hover:text-stone-800 leading-none">&times;</button>
+    </div>
+    <div class="px-8 py-6">
+      <div id="order-cart-summary" class="bg-amber-50 border border-amber-200 p-4 rounded mb-6 text-sm text-stone-600"></div>
+      <form id="order-form" onsubmit="submitOrder(event)" class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Ime i prezime *</label><input id="cust-name" type="text" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500" required></div>
+          <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Email *</label><input id="cust-email" type="email" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500" required></div>
+        </div>
+        <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Telefon *</label><input id="cust-phone" type="tel" placeholder="061 123 456" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500" required></div>
+        <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Adresa dostave *</label><input id="cust-address" type="text" placeholder="Ulica i broj" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500" required></div>
+        <div class="grid grid-cols-2 gap-4">
+          <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Grad *</label><input id="cust-city" type="text" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500" required></div>
+          <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Zemlja</label>
+            <select id="cust-country" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500">
+              <option>Bosna i Hercegovina</option><option>Srbija</option><option>Crna Gora</option><option>Hrvatska</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Napomena (opciono)</label><textarea id="cust-note" rows="2" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500 resize-none" placeholder="Posebne želje ili boje..."></textarea></div>
+        <div class="bg-stone-50 p-4 text-sm text-stone-500 space-y-1">
+          <div>💳 <strong>Plaćanje:</strong> Pouzećem (gotovinom kuriru pri isporuci)</div>
+          <div>🚚 <strong>Dostava:</strong> Brza pošta — 7–9 KM unutar BiH</div>
+        </div>
+        <button type="submit" class="w-full bg-amber-800 text-white py-4 text-xs tracking-widest uppercase hover:bg-amber-700 transition font-bold">✓ Potvrdi narudžbu</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ADMIN MODAL ════ -->
+<div id="admin-modal" class="modal-backdrop" onclick="if(event.target===this)closeAdminModal()">
+  <div class="bg-white w-full max-w-5xl mx-4 shadow-2xl flex flex-col" style="max-height:94vh">
+    <!-- Admin header -->
+    <div class="bg-stone-900 px-8 py-5 flex items-center justify-between flex-shrink-0">
+      <div class="flex items-center gap-3">
+        <span class="serif text-xl font-bold text-white tracking-wide">Admin Panel</span>
+        <span class="text-stone-500">|</span>
+        <span class="serif text-amber-400 italic text-sm">Handmade by DARA</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span id="admin-welcome-msg" class="text-xs text-stone-400 tracking-widest hidden">👑 DARA</span>
+        <button onclick="closeAdminModal()" class="text-stone-400 hover:text-white transition text-xl leading-none">&times;</button>
+      </div>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="admin-login-section" class="flex-1 flex items-center justify-center p-10">
+      <div class="w-full max-w-sm text-center">
+        <div class="text-5xl mb-6">🔐</div>
+        <h3 class="serif text-3xl font-bold text-stone-900 mb-2">Dobrodošla, Dara</h3>
+        <p class="text-stone-500 text-sm mb-8 font-light">Unesite lozinku za pristup admin panelu</p>
+        <div class="space-y-3">
+          <input id="admin-password" type="password" placeholder="Lozinka..."
+            onkeydown="if(event.key==='Enter')doAdminLogin()"
+            class="w-full border border-stone-200 px-5 py-3.5 text-sm focus:outline-none focus:border-amber-500 text-center tracking-widest">
+          <button onclick="doAdminLogin()" class="w-full bg-stone-900 text-white py-3.5 text-xs tracking-widest uppercase hover:bg-amber-800 transition">Prijavi se</button>
+          <p id="login-error" class="text-red-500 text-sm hidden">❌ Pogrešna lozinka. Pokušajte ponovo.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN BODY -->
+    <div id="admin-body" class="hidden flex-col overflow-hidden flex-1">
+      <div class="flex border-b border-stone-200 bg-stone-50 flex-shrink-0">
+        <button onclick="switchAdminTab('dashboard')" id="tab-btn-dashboard" class="admin-tab-btn px-6 py-4 text-xs tracking-widest uppercase border-b-2 border-amber-700 text-amber-700 font-bold">📊 Dashboard</button>
+        <button onclick="switchAdminTab('products')" id="tab-btn-products" class="admin-tab-btn px-6 py-4 text-xs tracking-widest uppercase border-b-2 border-transparent text-stone-400 hover:text-stone-700 transition">👜 Proizvodi</button>
+        <button onclick="switchAdminTab('orders')" id="tab-btn-orders" class="admin-tab-btn px-6 py-4 text-xs tracking-widest uppercase border-b-2 border-transparent text-stone-400 hover:text-stone-700 transition">📦 Narudžbe</button>
+      </div>
+      <div class="flex-1 overflow-y-auto p-8">
+
+        <!-- DASHBOARD -->
+        <div id="admin-tab-dashboard" class="tab-content active">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-stone-50 border border-stone-200 p-6"><div class="serif text-4xl font-bold text-stone-900" id="stat-total-products">0</div><div class="text-xs tracking-widest uppercase text-stone-400 mt-1">Modela</div></div>
+            <div class="bg-stone-50 border border-stone-200 p-6"><div class="serif text-4xl font-bold text-stone-900" id="stat-total-orders">0</div><div class="text-xs tracking-widest uppercase text-stone-400 mt-1">Narudžbi</div></div>
+            <div class="bg-amber-50 border border-amber-200 p-6"><div class="serif text-4xl font-bold text-amber-800" id="stat-pending-orders">0</div><div class="text-xs tracking-widest uppercase text-amber-600 mt-1">Na čekanju</div></div>
+            <div class="bg-stone-50 border border-stone-200 p-6"><div class="serif text-4xl font-bold text-stone-900" id="stat-revenue">0</div><div class="text-xs tracking-widest uppercase text-stone-400 mt-1">Prihod (KM)</div></div>
+          </div>
+          <div class="bg-amber-50 border border-amber-200 p-6">
+            <p class="serif text-2xl font-bold text-stone-900 mb-2">Dobrodošla, Dara! 🌸</p>
+            <p class="text-stone-600 font-light text-sm leading-relaxed">Upravljajte katalogom, pregledajte narudžbe i pratite poslovanje — sve na jednom mjestu. Lozinka za admin: <strong>dara2025</strong></p>
+          </div>
+        </div>
+
+        <!-- PRODUCTS -->
+        <div id="admin-tab-products" class="tab-content">
+          <div class="bg-stone-50 border border-stone-200 p-6 mb-6">
+            <h4 class="serif text-xl font-bold text-stone-900 mb-5" id="product-form-title">➕ Dodaj novi model</h4>
+            <input type="hidden" id="edit-product-id">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Naziv *</label><input id="p-name" type="text" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500" placeholder="npr. Torba 'Firenca'"></div>
+              <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Cijena (KM) *</label><input id="p-price" type="number" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500" placeholder="120"></div>
+              <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Oznaka</label>
+                <select id="p-tag" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500">
+                  <option value="">Bez oznake</option><option>Novo</option><option>Popularno</option><option>Limitirano</option><option>Bestseller</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Materijal</label><input id="p-material" type="text" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500" placeholder="Merino vuna, Toscana"></div>
+              <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Link slike (Unsplash URL)</label><input id="p-img" type="text" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500" placeholder="https://images.unsplash.com/..."></div>
+            </div>
+            <div class="mb-5"><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Opis</label><textarea id="p-desc" rows="2" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-amber-500 resize-none" placeholder="Kratki opis modela..."></textarea></div>
+            <div class="flex gap-3">
+              <button onclick="saveProduct()" class="bg-stone-900 text-white px-7 py-3 text-xs tracking-widest uppercase hover:bg-amber-800 transition">Sačuvaj model</button>
+              <button onclick="cancelProductEdit()" id="cancel-edit-btn" class="hidden border border-stone-300 text-stone-600 px-7 py-3 text-xs tracking-widest uppercase hover:border-stone-500 transition">Otkaži uređivanje</button>
+            </div>
+          </div>
+          <div id="admin-product-list" class="space-y-3"></div>
+        </div>
+
+        <!-- ORDERS -->
+        <div id="admin-tab-orders" class="tab-content">
+          <div class="flex items-center justify-between mb-5">
+            <h4 class="serif text-xl font-bold text-stone-900">Pristigle narudžbe</h4>
+            <select id="order-filter" onchange="renderAdminOrders()" class="border border-stone-200 px-4 py-2 text-xs tracking-widest uppercase focus:outline-none focus:border-amber-500">
+              <option value="">Sve narudžbe</option><option>Nova</option><option>U pripremi</option><option>Poslano</option><option>Otkazano</option>
+            </select>
+          </div>
+          <div id="admin-orders-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ TOAST ════ -->
+<div id="toast" class="fixed bottom-8 right-8 bg-stone-900 text-white px-6 py-4 text-sm z-[999] shadow-xl pointer-events-none"
+  style="transform:translateY(80px);opacity:0;transition:all .3s ease">—</div>
+
+<script>
+// ══ DATA LAYER ══
+const DEFAULT_PRODUCTS = [
+  {id:1,name:"Torba 'Firenca' — Bež",price:120,img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80",material:"Merino vuna, Toscana",tag:"Bestseller",desc:"Elegantna torba od firentinske merino vune, idealna za svaki dan i posebne prilike."},
+  {id:2,name:"Clutch 'Milano' — Crna",price:85,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=700&q=80",material:"Kašmir svilena nit, Milano",tag:"Popularno",desc:"Minijaturna clutch od svilenog kašmira — prava pratnja za večernje izlaske."},
+  {id:3,name:"Shopper 'Venecija'",price:150,img:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=700&q=80",material:"Alpaka vuna, Veneto",tag:"Novo",desc:"Prostrani shopper od nježne alpaka vune u toplim tonovima mediteranskih zalaski."},
+  {id:4,name:"Mini Torba 'Roma'",price:75,img:"https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&w=700&q=80",material:"Lana fine, Lazio",tag:"",desc:"Kompaktna mini torba savršena kao poklon ili svakodnevni pratilac."},
+  {id:5,name:"Torba 'Capri' — Bijela",price:135,img:"https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=700&q=80",material:"Bijela merino, Capri kolekcija",tag:"Limitirano",desc:"Limitirana bijela kolekcija inspirisana mediteranskim ljetom."},
+  {id:6,name:"Tote 'Siena'",price:110,img:"https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=700&q=80",material:"Rustikalna vuna, Toscana",tag:"",desc:"Rustikalni tote s karakterom — za ženu koja voli autentičnost i prirodne materijale."},
+];
+
+const DB = {
+  products: () => { try { return JSON.parse(localStorage.getItem('dara_products')) || DEFAULT_PRODUCTS; } catch(e) { return DEFAULT_PRODUCTS; } },
+  saveProducts: (p) => localStorage.setItem('dara_products', JSON.stringify(p)),
+  orders: () => { try { return JSON.parse(localStorage.getItem('dara_orders')) || []; } catch(e) { return []; } },
+  saveOrders: (o) => localStorage.setItem('dara_orders', JSON.stringify(o)),
+  cart: () => { try { return JSON.parse(sessionStorage.getItem('dara_cart')) || []; } catch(e) { return []; } },
+  saveCart: (c) => sessionStorage.setItem('dara_cart', JSON.stringify(c)),
+};
+
+// ══ PRODUCTS ══
+function renderProducts() {
+  const products = DB.products();
+  const grid = document.getElementById('product-grid');
+  const lbl = document.getElementById('product-count-label');
+  if (lbl) lbl.textContent = products.length + ' modela';
+  grid.innerHTML = products.map(p => `
+    <div class="product-card bg-white group overflow-hidden border border-stone-100 shadow-sm hover:shadow-xl transition duration-300">
+      <div class="relative overflow-hidden bg-stone-100" style="height:340px">
+        <img src="${p.img || 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80'}"
+          class="product-img w-full h-full object-cover"
+          onerror="this.src='https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80'"
+          alt="${p.name}">
+        ${p.tag ? `<div class="absolute top-4 left-4 bg-amber-800 text-white text-xs tracking-widest uppercase px-3 py-1">${p.tag}</div>` : ''}
+        <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/20 transition duration-300 flex items-end justify-center pb-6">
+          <button onclick="addToCart(${p.id})"
+            class="bg-white text-stone-900 px-7 py-3 text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition duration-300 hover:bg-amber-800 hover:text-white font-bold shadow-lg">
+            + Dodaj u korpu
+          </button>
+        </div>
+      </div>
+      <div class="p-6">
+        <p class="text-xs text-stone-400 font-light tracking-wide mb-1">${p.material || ''}</p>
+        <h3 class="serif text-xl font-bold text-stone-900 mb-2">${p.name}</h3>
+        <p class="text-sm text-stone-500 font-light leading-relaxed mb-4 line-clamp-2">${p.desc || ''}</p>
+        <div class="flex items-center justify-between pt-2 border-t border-stone-100">
+          <span class="serif text-2xl font-bold text-amber-800">${p.price} KM</span>
+          <button onclick="addToCart(${p.id})" class="border border-stone-800 px-5 py-2 text-xs tracking-widest uppercase hover:bg-stone-800 hover:text-white transition font-bold">+ Korpa</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ══ CART ══
+function addToCart(id) {
+  const p = DB.products().find(x => x.id === id);
+  if (!p) return;
+  const cart = DB.cart();
+  const ex = cart.find(i => i.id === id);
+  if (ex) ex.qty++; else cart.push({...p, qty:1});
+  DB.saveCart(cart);
+  updateCartBadge();
+  showToast(`✓ "${p.name}" dodano u korpu!`);
+}
+function updateCartBadge() {
+  document.getElementById('cart-badge').textContent = DB.cart().reduce((s,i)=>s+i.qty,0);
+}
+function renderCartItems() {
+  const cart = DB.cart();
+  const el = document.getElementById('cart-items-list');
+  if (!cart.length) {
+    el.innerHTML = `<div class="text-center py-16 text-stone-400"><div class="text-5xl mb-4">🛒</div><p class="text-sm font-light">Vaša korpa je prazna</p></div>`;
+    document.getElementById('cart-total').textContent = '0 KM';
+    return;
+  }
+  el.innerHTML = cart.map(item => `
+    <div class="flex gap-4 py-5 border-b border-stone-100">
+      <div class="w-20 h-20 flex-shrink-0 overflow-hidden bg-stone-100">
+        <img src="${item.img||''}" class="w-full h-full object-cover"
+          onerror="this.src='https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=200&q=60'" alt="${item.name}">
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="serif font-bold text-stone-900 text-sm leading-snug mb-1">${item.name}</p>
+        <p class="text-xs text-stone-400 font-light mb-3">${item.price} KM / kom.</p>
+        <div class="flex items-center gap-3">
+          <button onclick="changeQty(${item.id},-1)" class="w-7 h-7 border border-stone-200 text-base hover:border-amber-500 transition leading-none">−</button>
+          <span class="text-sm font-bold w-5 text-center">${item.qty}</span>
+          <button onclick="changeQty(${item.id},1)" class="w-7 h-7 border border-stone-200 text-base hover:border-amber-500 transition leading-none">+</button>
+        </div>
+      </div>
+      <div class="text-right flex-shrink-0">
+        <p class="serif font-bold text-amber-800 text-base">${item.price * item.qty} KM</p>
+        <button onclick="removeCartItem(${item.id})" class="text-xs text-stone-300 hover:text-red-400 transition mt-2 block ml-auto">Ukloni</button>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('cart-total').textContent = cart.reduce((s,i)=>s+i.price*i.qty,0) + ' KM';
+}
+function changeQty(id, d) {
+  let cart = DB.cart();
+  const item = cart.find(i=>i.id===id);
+  if (!item) return;
+  item.qty += d;
+  if (item.qty<=0) cart = cart.filter(i=>i.id!==id);
+  DB.saveCart(cart); updateCartBadge(); renderCartItems();
+}
+function removeCartItem(id) { DB.saveCart(DB.cart().filter(i=>i.id!==id)); updateCartBadge(); renderCartItems(); }
+function openCart() { document.getElementById('cart-overlay').classList.remove('hidden'); document.getElementById('cart-sidebar').classList.add('open'); renderCartItems(); }
+function closeCart() { document.getElementById('cart-overlay').classList.add('hidden'); document.getElementById('cart-sidebar').classList.remove('open'); }
+
+function openOrderModal() {
+  const cart = DB.cart();
+  if (!cart.length) { showToast('⚠️ Korpa je prazna!'); return; }
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  document.getElementById('order-cart-summary').innerHTML =
+    `<strong>Narudžba:</strong> ${cart.map(i=>`${i.name} ×${i.qty}`).join(', ')}<br>
+     <strong class="text-amber-800">Ukupno: ${total} KM</strong> + dostava`;
+  document.getElementById('order-modal').classList.add('open');
+  closeCart();
+}
+function submitOrder(e) {
+  e.preventDefault();
+  const cart = DB.cart();
+  const orders = DB.orders();
+  const orderId = '#ORD-' + String(orders.length + 1).padStart(3,'0');
+  orders.push({
+    id: orderId,
+    date: new Date().toLocaleDateString('hr-HR'),
+    name: document.getElementById('cust-name').value,
+    email: document.getElementById('cust-email').value,
+    phone: document.getElementById('cust-phone').value,
+    address: document.getElementById('cust-address').value + ', ' + document.getElementById('cust-city').value,
+    country: document.getElementById('cust-country').value,
+    note: document.getElementById('cust-note').value,
+    items: cart.map(i=>`${i.name} ×${i.qty}`).join(', '),
+    total: cart.reduce((s,i)=>s+i.price*i.qty,0),
+    status: 'Nova'
+  });
+  DB.saveOrders(orders);
+  DB.saveCart([]);
+  updateCartBadge();
+  document.getElementById('order-modal').classList.remove('open');
+  document.getElementById('order-form').reset();
+  showToast(`✅ Narudžba ${orderId} primljena! Dara će Vas kontaktirati.`);
+  updateAdminStats();
+}
+
+// ══ CONTACT ══
+function sendContact(e) { e.preventDefault(); showToast('✅ Poruka poslata! Dara će Vam odgovoriti uskoro.'); e.target.reset(); }
+
+// ══ ADMIN ══
+const ADMIN_PASS = 'dara2025';
+let adminLoggedIn = false;
+
+function openAdminModal() {
+  document.getElementById('admin-modal').classList.add('open');
+  if (adminLoggedIn) showAdminBody();
+}
+function closeAdminModal() { document.getElementById('admin-modal').classList.remove('open'); }
+function doAdminLogin() {
+  if (document.getElementById('admin-password').value === ADMIN_PASS) {
+    adminLoggedIn = true;
+    document.getElementById('login-error').classList.add('hidden');
+    showAdminBody();
+  } else {
+    document.getElementById('login-error').classList.remove('hidden');
+    document.getElementById('admin-password').value = '';
+  }
+}
+function showAdminBody() {
+  document.getElementById('admin-login-section').classList.add('hidden');
+  const body = document.getElementById('admin-body');
+  body.classList.remove('hidden');
+  body.classList.add('flex');
+  document.getElementById('admin-welcome-msg').classList.remove('hidden');
+  renderAdminProducts();
+  renderAdminOrders();
+  updateAdminStats();
+}
+
+function switchAdminTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+    btn.classList.remove('border-amber-700','text-amber-700','font-bold');
+    btn.classList.add('border-transparent','text-stone-400');
+  });
+  document.getElementById('admin-tab-' + tab).classList.add('active');
+  const btn = document.getElementById('tab-btn-' + tab);
+  btn.classList.add('border-amber-700','text-amber-700','font-bold');
+  btn.classList.remove('border-transparent','text-stone-400');
+}
+
+function updateAdminStats() {
+  const products = DB.products(), orders = DB.orders();
+  document.getElementById('stat-total-products').textContent = products.length;
+  document.getElementById('stat-total-orders').textContent = orders.length;
+  document.getElementById('stat-pending-orders').textContent = orders.filter(o=>o.status==='Nova'||o.status==='U pripremi').length;
+  document.getElementById('stat-revenue').textContent = orders.reduce((s,o)=>s+(o.total||0),0);
+}
+
+function renderAdminProducts() {
+  const products = DB.products();
+  const list = document.getElementById('admin-product-list');
+  if (!products.length) { list.innerHTML = '<p class="text-stone-400 text-sm italic text-center py-8">Nema dodanih modela.</p>'; return; }
+  list.innerHTML = products.map(p => `
+    <div class="flex items-center gap-4 bg-white border border-stone-200 p-4 hover:border-amber-300 transition">
+      <div class="w-16 h-16 flex-shrink-0 overflow-hidden bg-stone-100">
+        <img src="${p.img||''}" class="w-full h-full object-cover"
+          onerror="this.src='https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=100&q=60'" alt="${p.name}">
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="serif font-bold text-stone-900 truncate">${p.name}</p>
+        <p class="text-xs text-stone-400 font-light">${p.material||'—'} ${p.tag?`<span class="text-amber-700 font-medium">· ${p.tag}</span>`:''}</p>
+      </div>
+      <div class="serif text-xl font-bold text-amber-800 flex-shrink-0 px-4">${p.price} KM</div>
+      <div class="flex gap-2 flex-shrink-0">
+        <button onclick="editProduct(${p.id})" class="border border-stone-300 text-stone-600 px-4 py-2 text-xs tracking-widest uppercase hover:border-amber-500 hover:text-amber-700 transition">✏ Uredi</button>
+        <button onclick="deleteProduct(${p.id})" class="border border-stone-300 text-stone-400 px-3 py-2 text-xs hover:border-red-300 hover:text-red-500 transition">🗑</button>
+      </div>
+    </div>
+  `).join('');
+}
+function saveProduct() {
+  const id = document.getElementById('edit-product-id').value;
+  const name = document.getElementById('p-name').value.trim();
+  const price = parseFloat(document.getElementById('p-price').value);
+  if (!name || !price) { showToast('⚠️ Naziv i cijena su obavezni!'); return; }
+  let products = DB.products();
+  const obj = { name, price, img: document.getElementById('p-img').value.trim(), material: document.getElementById('p-material').value.trim(), tag: document.getElementById('p-tag').value, desc: document.getElementById('p-desc').value.trim() };
+  if (id) {
+    const idx = products.findIndex(p=>p.id===parseInt(id));
+    if (idx!==-1) { products[idx] = {...products[idx],...obj}; showToast('✅ Model ažuriran!'); }
+  } else {
+    products.push({id:Date.now(),...obj});
+    showToast('✅ Novi model dodan!');
+  }
+  DB.saveProducts(products);
+  cancelProductEdit();
+  renderAdminProducts();
+  renderProducts();
+  updateAdminStats();
+}
+function editProduct(id) {
+  const p = DB.products().find(x=>x.id===id);
+  if (!p) return;
+  document.getElementById('edit-product-id').value = p.id;
+  document.getElementById('p-name').value = p.name;
+  document.getElementById('p-price').value = p.price;
+  document.getElementById('p-img').value = p.img||'';
+  document.getElementById('p-material').value = p.material||'';
+  document.getElementById('p-tag').value = p.tag||'';
+  document.getElementById('p-desc').value = p.desc||'';
+  document.getElementById('product-form-title').textContent = '✏️ Uredi model: ' + p.name;
+  document.getElementById('cancel-edit-btn').classList.remove('hidden');
+}
+function cancelProductEdit() {
+  ['edit-product-id','p-name','p-price','p-img','p-material','p-desc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('p-tag').value='';
+  document.getElementById('product-form-title').textContent='➕ Dodaj novi model';
+  document.getElementById('cancel-edit-btn').classList.add('hidden');
+}
+function deleteProduct(id) {
+  if (!confirm('Obrisati ovaj model iz kataloga?')) return;
+  DB.saveProducts(DB.products().filter(p=>p.id!==id));
+  renderAdminProducts(); renderProducts(); updateAdminStats();
+  showToast('🗑️ Model obrisan.');
+}
+
+const STATUS_COLORS = { Nova:'bg-amber-100 text-amber-800', 'U pripremi':'bg-blue-100 text-blue-800', Poslano:'bg-green-100 text-green-800', Otkazano:'bg-red-100 text-red-800' };
+function renderAdminOrders() {
+  let orders = DB.orders();
+  const filter = document.getElementById('order-filter')?.value||'';
+  if (filter) orders = orders.filter(o=>o.status===filter);
+  const list = document.getElementById('admin-orders-list');
+  if (!orders.length) { list.innerHTML=`<div class="text-center py-12 text-stone-400 text-sm italic">Nema narudžbi${filter?' sa statusom "'+filter+'"':'...'}</div>`; return; }
+  list.innerHTML = [...orders].reverse().map(o=>`
+    <div class="border border-stone-200 p-5 mb-4 hover:border-amber-300 transition">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-3"><span class="text-xs tracking-widest uppercase text-stone-400">${o.id}</span><span class="text-xs text-stone-300">${o.date||'—'}</span></div>
+        <div class="flex items-center gap-3"><span class="serif text-xl font-bold text-amber-800">${o.total} KM</span><span class="text-xs tracking-widest uppercase px-3 py-1 rounded-full ${STATUS_COLORS[o.status]||'bg-stone-100 text-stone-600'}">${o.status}</span></div>
+      </div>
+      <p class="serif text-lg font-bold text-stone-900 mb-1">${o.name}</p>
+      <p class="text-xs text-stone-500 font-light mb-1">📧 ${o.email} &nbsp;|&nbsp; 📞 ${o.phone||'—'}</p>
+      <p class="text-xs text-stone-500 font-light mb-3">📍 ${o.address}, ${o.country}</p>
+      <div class="bg-stone-50 p-3 text-sm text-stone-600 mb-3 font-light">${o.items}</div>
+      ${o.note?`<div class="text-xs text-stone-400 italic mb-3">💬 ${o.note}</div>`:''}
+      <div class="flex gap-2 flex-wrap">
+        ${['Nova','U pripremi','Poslano','Otkazano'].map(s=>`
+          <button onclick="updateOrderStatus('${o.id}','${s}')"
+            class="px-3 py-1.5 text-xs tracking-widest uppercase border transition ${o.status===s?'bg-stone-900 text-white border-stone-900':'border-stone-200 text-stone-500 hover:border-amber-500 hover:text-amber-700'}">${s}</button>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+function updateOrderStatus(orderId, status) {
+  const orders = DB.orders();
+  const o = orders.find(x=>x.id===orderId);
+  if (o) { o.status=status; DB.saveOrders(orders); renderAdminOrders(); updateAdminStats(); showToast(`Status ${orderId} → ${status}`); }
+}
+
+// ══ TOAST ══
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.transform = 'translateY(0)';
+  t.style.opacity = '1';
+  t.style.pointerEvents = 'auto';
+  clearTimeout(window._tt);
+  window._tt = setTimeout(()=>{t.style.transform='translateY(80px)';t.style.opacity='0';t.style.pointerEvents='none';},3200);
+}
+
+// ══ INIT ══
+renderProducts();
+updateCartBadge();
+</script>
+</body>
+</html>
