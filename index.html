@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Handmade by DARA | Unikatne pletene torbe</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -788,8 +791,8 @@ function showToast(msg) {
 }
 
 // ══ INIT ══
-renderProducts();
-updateCartBadge();
+try { renderProducts(); } catch(e) { console.error('renderProducts failed:', e); }
+try { updateCartBadge(); } catch(e) { console.error('updateCartBadge failed:', e); }
 </script>
 </body>
 </html>
