@@ -403,8 +403,7 @@ const EMAILJS_PUBLIC_KEY  = '9iTuxbWZF7FK1mhJL';
 // ══ SUPABASE CONFIG ══
 const SUPABASE_URL = 'https://zkrifetqrtmmyvsfphyk.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprcmlmZXRxcnRtbXl2c2ZwaHlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNTYxNjYsImV4cCI6MjA5MDYzMjE2Nn0._CtxppRXuEATKQJBD4xvpC85oM6tOhtK6VBL-bEbd44';
-const { createClient } = window.supabase;
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 // ══ DATA LAYER ══
 const DATA_VERSION = 'v3';
@@ -552,11 +551,9 @@ async function submitOrder(e) {
   };
 
   // Spremi u Supabase
-  const { data, error } = await supabase.from('orders').insert([orderData]);
-
-  if (error) {
-    showToast(`❌ Greška: ${error.message}`);
-    return;
+  if (supabase) {
+    const { error } = await supabase.from('orders').insert([orderData]);
+    if (error) console.warn('Supabase error:', error.message);
   }
 
   // Pošalji email notifikaciju
