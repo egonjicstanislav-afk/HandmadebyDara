@@ -406,7 +406,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 // ══ DATA LAYER ══
-const DATA_VERSION = 'v3';
+const DATA_VERSION = 'v4';
 if (localStorage.getItem('dara_version') !== DATA_VERSION) {
   localStorage.removeItem('dara_products');
   localStorage.setItem('dara_version', DATA_VERSION);
@@ -424,7 +424,7 @@ const DEFAULT_PRODUCTS = [
 ];
 
 const DB = {
-  products: () => { try { return JSON.parse(localStorage.getItem('dara_products')) || DEFAULT_PRODUCTS; } catch(e) { return DEFAULT_PRODUCTS; } },
+  products: () => { try { const s = JSON.parse(localStorage.getItem('dara_products')); return (s && s.length > 0) ? s : DEFAULT_PRODUCTS; } catch(e) { return DEFAULT_PRODUCTS; } },
   saveProducts: (p) => localStorage.setItem('dara_products', JSON.stringify(p)),
   orders: () => { try { return JSON.parse(localStorage.getItem('dara_orders')) || []; } catch(e) { return []; } },
   saveOrders: (o) => localStorage.setItem('dara_orders', JSON.stringify(o)),
