@@ -375,9 +375,10 @@
                   ondrop="handleImageDrop(event)"
                   style="border:2px dashed #d6d3d1;padding:16px;text-align:center;transition:border-color .2s;">
                   <div id="p-img-preview" style="width:72px;height:72px;background:#f5f5f4;border:1px solid #e7e5e4;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 10px;">🖼</div>
-                  <input type="file" id="p-img-file" accept="image/*" onchange="handleImageUpload(this)"
-                    style="display:block;width:100%;margin-bottom:6px;font-size:13px;">
-                  <p style="font-size:11px;color:#a8a29e;margin:4px 0 0;">ili prevuci ovdje — računar i telefon</p>
+                  <button type="button" onclick="pickImageFile()" style="background:#1c1917;color:#fff;padding:10px 20px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;margin-bottom:6px;">
+                    📷 Odaberi fotografiju
+                  </button>
+                  <p style="font-size:11px;color:#a8a29e;margin:4px 0 0;">ili prevuci sliku ovdje</p>
                   <p id="p-img-filename" style="font-size:11px;color:#78716c;margin:4px 0 0;font-weight:600;"></p>
                 </div>
                 <input type="hidden" id="p-img">
@@ -716,6 +717,18 @@ function editProduct(id) {
   document.getElementById('product-form-title').textContent = '✏️ Uredi model: ' + p.name;
   document.getElementById('cancel-edit-btn').classList.remove('hidden');
 }
+async function pickImageFile() {
+  try {
+    const [handle] = await window.showOpenFilePicker({
+      types: [{ description: 'Slike', accept: { 'image/*': ['.jpg','.jpeg','.png','.webp','.gif'] } }],
+      multiple: false
+    });
+    const file = await handle.getFile();
+    await uploadImageFile(file);
+  } catch(e) {
+    if (e.name !== 'AbortError') showToast('❌ ' + e.message);
+  }
+}
 async function handleImageDrop(event) {
   event.preventDefault();
   const dz = document.getElementById('img-dropzone');
@@ -755,8 +768,8 @@ async function uploadImageFile(file) {
 function cancelProductEdit() {
   ['edit-product-id','p-name','p-price','p-img','p-material','p-desc'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('p-tag').value='';
-  document.getElementById('p-img-file').value='';
   document.getElementById('p-img-preview').innerHTML='🖼';
+  document.getElementById('p-img-filename').textContent='';
   document.getElementById('product-form-title').textContent='➕ Dodaj novi model';
   document.getElementById('cancel-edit-btn').classList.add('hidden');
 }
