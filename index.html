@@ -238,7 +238,7 @@
     </div>
     <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-500">
       <span>© 2026 Handmade by DARA. Sva prava zadržana. 🇮🇹</span>
-      <button onclick="openAdminModal()" class="hover:text-rose-400 transition tracking-widest uppercase">⚙ Admin panel</button>
+      <a href="admin.html" class="hover:text-rose-400 transition tracking-widest uppercase text-xs">⚙ Admin panel</a>
     </div>
   </div>
 </footer>
@@ -414,6 +414,7 @@
 <!-- ════ TOAST ════ -->
 <div id="toast" class="fixed bottom-8 right-8 bg-stone-900 text-white px-6 py-4 text-sm z-[999] shadow-xl pointer-events-none"
   style="transform:translateY(80px);opacity:0;transition:all .3s ease">—</div>
+<input type="file" id="img-file-input" accept="image/*" style="position:absolute;opacity:0;width:0;height:0;overflow:hidden;" onchange="handleImageUpload(this)">
 
 
 <script>
@@ -717,22 +718,8 @@ function editProduct(id) {
   document.getElementById('product-form-title').textContent = '✏️ Uredi model: ' + p.name;
   document.getElementById('cancel-edit-btn').classList.remove('hidden');
 }
-let _pickerOpen = false;
-async function pickImageFile() {
-  if (_pickerOpen) return;
-  _pickerOpen = true;
-  try {
-    const [handle] = await window.showOpenFilePicker({
-      types: [{ description: 'Slike', accept: { 'image/*': ['.jpg','.jpeg','.png','.webp','.gif'] } }],
-      multiple: false
-    });
-    const file = await handle.getFile();
-    await uploadImageFile(file);
-  } catch(e) {
-    if (e.name !== 'AbortError') showToast('❌ ' + e.message);
-  } finally {
-    _pickerOpen = false;
-  }
+function pickImageFile() {
+  document.getElementById('img-file-input').click();
 }
 async function handleImageDrop(event) {
   event.preventDefault();

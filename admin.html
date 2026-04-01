@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Handmade by DARA</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>body{font-family:'Lato',sans-serif;}.serif{font-family:'Playfair Display',serif;}</style>
+</head>
+<body class="bg-stone-100 min-h-screen">
+
+<!-- HEADER -->
+<div class="bg-stone-900 px-6 py-4 flex items-center justify-between">
+  <div class="flex items-center gap-4">
+    <img src="https://zkrifetqrtmmyvsfphyk.supabase.co/storage/v1/object/public/torbe/daralogo.png" class="h-12 w-auto">
+    <span class="serif text-white text-xl font-bold">Admin Panel</span>
+  </div>
+  <a href="index.html" class="text-stone-400 hover:text-white text-sm transition">← Nazad na sajt</a>
+</div>
+
+<!-- LOGIN -->
+<div id="login-section" class="max-w-sm mx-auto mt-20 bg-white p-8 shadow">
+  <div class="text-4xl text-center mb-4">🔐</div>
+  <h2 class="serif text-2xl font-bold text-center mb-6">Dobrodošla, Dara</h2>
+  <input id="pwd" type="password" placeholder="Lozinka..." onkeydown="if(event.key==='Enter')login()"
+    class="w-full border border-stone-200 px-4 py-3 text-sm mb-3 focus:outline-none focus:border-rose-400 text-center tracking-widest">
+  <button onclick="login()" class="w-full bg-stone-900 text-white py-3 text-xs tracking-widest uppercase hover:bg-rose-700 transition">Prijavi se</button>
+  <p id="login-err" class="text-red-500 text-sm text-center mt-3 hidden">❌ Pogrešna lozinka</p>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="panel" class="hidden max-w-5xl mx-auto px-4 py-8">
+
+  <!-- TABS -->
+  <div class="flex gap-1 mb-6 border-b border-stone-300">
+    <button onclick="tab('products')" id="t-products" class="px-6 py-3 text-xs tracking-widest uppercase font-bold text-rose-600 border-b-2 border-rose-600">👜 Proizvodi</button>
+    <button onclick="tab('orders')" id="t-orders" class="px-6 py-3 text-xs tracking-widest uppercase text-stone-400 border-b-2 border-transparent hover:text-stone-700">📦 Narudžbe</button>
+  </div>
+
+  <!-- PRODUCTS TAB -->
+  <div id="tab-products">
+
+    <!-- ADD/EDIT FORM -->
+    <div class="bg-white p-6 mb-6 shadow-sm">
+      <h3 class="serif text-xl font-bold mb-5" id="form-title">➕ Dodaj novi model</h3>
+      <input type="hidden" id="edit-id">
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+          <label class="text-xs tracking-widest uppercase text-stone-400 block mb-1">Naziv *</label>
+          <input id="p-name" type="text" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-rose-400" placeholder="Torba 'Firenca'">
+        </div>
+        <div>
+          <label class="text-xs tracking-widest uppercase text-stone-400 block mb-1">Cijena (KM) *</label>
+          <input id="p-price" type="number" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-rose-400" placeholder="120">
+        </div>
+        <div>
+          <label class="text-xs tracking-widest uppercase text-stone-400 block mb-1">Oznaka</label>
+          <select id="p-tag" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-rose-400">
+            <option value="">Bez oznake</option>
+            <option>Novo</option><option>Popularno</option><option>Limitirano</option><option>Bestseller</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+          <label class="text-xs tracking-widest uppercase text-stone-400 block mb-1">Materijal</label>
+          <input id="p-material" type="text" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-rose-400" placeholder="Merino vuna, Toscana">
+        </div>
+        <div>
+          <label class="text-xs tracking-widest uppercase text-stone-400 block mb-1">Fotografija torbe</label>
+          <div class="flex items-center gap-3">
+            <div id="img-preview" class="w-16 h-16 flex-shrink-0 bg-stone-100 border border-stone-200 overflow-hidden flex items-center justify-center text-2xl">🖼</div>
+            <div>
+              <input type="file" id="img-file" accept="image/*" onchange="onFileChange(this)"
+                class="block text-sm text-stone-600 border border-stone-200 px-3 py-2 cursor-pointer
+                       file:mr-3 file:py-1.5 file:px-3 file:border-0 file:text-xs file:uppercase
+                       file:tracking-widest file:bg-stone-900 file:text-white file:cursor-pointer hover:file:bg-rose-700">
+              <p id="img-status" class="text-xs text-stone-400 mt-1"></p>
+            </div>
+          </div>
+          <input type="hidden" id="p-img">
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <label class="text-xs tracking-widest uppercase text-stone-400 block mb-1">Opis</label>
+        <textarea id="p-desc" rows="2" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-rose-400 resize-none" placeholder="Kratki opis..."></textarea>
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="saveProduct()" class="bg-stone-900 text-white px-8 py-3 text-xs tracking-widest uppercase hover:bg-rose-700 transition">Sačuvaj</button>
+        <button onclick="cancelEdit()" id="cancel-btn" class="hidden border border-stone-300 text-stone-600 px-8 py-3 text-xs tracking-widest uppercase hover:border-stone-500 transition">Otkaži</button>
+      </div>
+    </div>
+
+    <!-- PRODUCT LIST -->
+    <div id="product-list" class="space-y-3"></div>
+    <div class="mt-4 pt-4 border-t border-stone-200">
+      <button onclick="resetProducts()" class="text-xs text-stone-400 hover:text-red-500 border border-stone-200 hover:border-red-300 px-4 py-2 uppercase tracking-widest transition">↺ Reset na originalne torbe</button>
+    </div>
+  </div>
+
+  <!-- ORDERS TAB -->
+  <div id="tab-orders" class="hidden">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="serif text-xl font-bold">Narudžbe</h3>
+      <select id="order-filter" onchange="renderOrders()" class="border border-stone-200 px-4 py-2 text-xs uppercase tracking-widest focus:outline-none">
+        <option value="">Sve</option><option>Nova</option><option>U pripremi</option><option>Poslano</option><option>Otkazano</option>
+      </select>
+    </div>
+    <div id="orders-list"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-6 right-6 bg-stone-900 text-white px-5 py-3 text-sm shadow-xl z-50"
+  style="transform:translateY(80px);opacity:0;transition:all .3s ease">—</div>
+
+<script>
+const SUPABASE_URL = 'https://zkrifetqrtmmyvsfphyk.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprcmlmZXRxcnRtbXl2c2ZwaHlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNTYxNjYsImV4cCI6MjA5MDYzMjE2Nn0._CtxppRXuEATKQJBD4xvpC85oM6tOhtK6VBL-bEbd44';
+const STORAGE_URL = SUPABASE_URL + '/storage/v1/object/public/torbe/';
+
+const DEFAULT_PRODUCTS = [
+  {id:1,name:"Torba 'Proljeće' — Roze",price:120,img:STORAGE_URL+"torba_model_1.png",material:"Merino vuna, prugasti uzorak",tag:"Bestseller",desc:"Elegantna roze torba s prugastim uzorkom — savršena za proljetne dane među cvijećem."},
+  {id:2,name:"Clutch 'Milano' — Crna",price:85,img:STORAGE_URL+"torba_model_2.png",material:"Kašmir svilena nit, crno-bež",tag:"Popularno",desc:"Minijaturna clutch od svilenog kašmira u klasičnoj crno-bež kombinaciji."},
+  {id:3,name:"Torba 'Livada' — Tirkizna",price:150,img:STORAGE_URL+"torba_model_3.png",material:"Alpaka vuna, tirkizno-bež",tag:"Novo",desc:"Svježa tirkizna torba s prugastim uzorkom — inspirisana cvjetnim livadama u proljeće."},
+  {id:4,name:"Bucket 'Sunce' — Žuta",price:75,img:STORAGE_URL+"torba_model_4.png",material:"Merino vuna, žuto-bež",tag:"",desc:"Lagana bucket torba s Dara znakom."},
+  {id:5,name:"Torba 'Cvjetna' — Smeđa",price:135,img:STORAGE_URL+"springbag2.png",material:"Premium vuna, smeđe pruge",tag:"Limitirano",desc:"Limitirana proljetna kolekcija."},
+  {id:6,name:"Torba 'Tratinčica'",price:110,img:STORAGE_URL+"ispringbag.png",material:"Merino vuna, klasični uzorak",tag:"",desc:"Elegantna torba s ručicom i zlatnim okovima."},
+  {id:7,name:"Torba 'More' — Zelena",price:130,img:STORAGE_URL+"sea_bag_2.png",material:"Tamnozelena merino vuna",tag:"Novo",desc:"Čvrsta i elegantna tamnozelena torba."},
+  {id:8,name:"Clutch 'Obala'",price:95,img:STORAGE_URL+"sea_bag_4.png",material:"Tamnozelena merino vuna",tag:"",desc:"Kompaktna clutch u tamnozelenom."},
+];
+
+const DB = {
+  products: () => { try { const s = JSON.parse(localStorage.getItem('dara_products')); return (s && s.length > 0) ? s : DEFAULT_PRODUCTS; } catch(e) { return DEFAULT_PRODUCTS; } },
+  save: (p) => localStorage.setItem('dara_products', JSON.stringify(p)),
+  orders: () => { try { return JSON.parse(localStorage.getItem('dara_orders')) || []; } catch(e) { return []; } },
+  saveOrders: (o) => localStorage.setItem('dara_orders', JSON.stringify(o)),
+};
+
+function login() {
+  if (document.getElementById('pwd').value === 'dara2026') {
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('panel').classList.remove('hidden');
+    renderProducts();
+    renderOrders();
+  } else {
+    document.getElementById('login-err').classList.remove('hidden');
+    document.getElementById('pwd').value = '';
+  }
+}
+document.getElementById('pwd').addEventListener('keydown', e => { if(e.key==='Enter') login(); });
+
+function tab(name) {
+  ['products','orders'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('hidden', t !== name);
+    const btn = document.getElementById('t-'+t);
+    btn.classList.toggle('text-rose-600', t === name);
+    btn.classList.toggle('border-rose-600', t === name);
+    btn.classList.toggle('text-stone-400', t !== name);
+    btn.classList.toggle('border-transparent', t !== name);
+  });
+}
+
+async function onFileChange(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5*1024*1024) { toast('⚠️ Max 5MB'); return; }
+  toast('⏳ Uploadujem...');
+  const filename = Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+  try {
+    const res = await fetch(SUPABASE_URL + '/storage/v1/object/torbe/' + filename, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': file.type },
+      body: file
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const url = STORAGE_URL + filename;
+    document.getElementById('p-img').value = url;
+    document.getElementById('img-preview').innerHTML = `<img src="${url}" class="w-full h-full object-cover">`;
+    document.getElementById('img-status').textContent = '✅ ' + file.name;
+    toast('✅ Slika uploadovana!');
+  } catch(e) { toast('❌ ' + e.message); }
+}
+
+function saveProduct() {
+  const name = document.getElementById('p-name').value.trim();
+  const price = parseFloat(document.getElementById('p-price').value);
+  if (!name || !price) { toast('⚠️ Naziv i cijena su obavezni'); return; }
+  const obj = { name, price, img: document.getElementById('p-img').value.trim(), material: document.getElementById('p-material').value.trim(), tag: document.getElementById('p-tag').value, desc: document.getElementById('p-desc').value.trim() };
+  const id = document.getElementById('edit-id').value;
+  let products = DB.products();
+  if (id) {
+    const i = products.findIndex(p => p.id === parseInt(id));
+    if (i !== -1) { products[i] = {...products[i], ...obj}; toast('✅ Ažurirano!'); }
+  } else {
+    products.push({id: Date.now(), ...obj});
+    toast('✅ Dodano!');
+  }
+  DB.save(products);
+  cancelEdit();
+  renderProducts();
+}
+
+function editProduct(id) {
+  const p = DB.products().find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('edit-id').value = p.id;
+  document.getElementById('p-name').value = p.name;
+  document.getElementById('p-price').value = p.price;
+  document.getElementById('p-img').value = p.img || '';
+  document.getElementById('p-material').value = p.material || '';
+  document.getElementById('p-tag').value = p.tag || '';
+  document.getElementById('p-desc').value = p.desc || '';
+  document.getElementById('form-title').textContent = '✏️ Uredi: ' + p.name;
+  document.getElementById('cancel-btn').classList.remove('hidden');
+  if (p.img) document.getElementById('img-preview').innerHTML = `<img src="${p.img}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='🖼'">`;
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function cancelEdit() {
+  ['edit-id','p-name','p-price','p-img','p-material','p-desc'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('p-tag').value = '';
+  document.getElementById('img-file').value = '';
+  document.getElementById('img-preview').innerHTML = '🖼';
+  document.getElementById('img-status').textContent = '';
+  document.getElementById('form-title').textContent = '➕ Dodaj novi model';
+  document.getElementById('cancel-btn').classList.add('hidden');
+}
+
+function deleteProduct(id) {
+  if (!confirm('Obrisati ovaj model?')) return;
+  DB.save(DB.products().filter(p => p.id !== id));
+  renderProducts();
+  toast('🗑️ Obrisano');
+}
+
+function resetProducts() {
+  if (!confirm('Reset na 8 originalnih torbi?')) return;
+  localStorage.removeItem('dara_products');
+  renderProducts();
+  toast('✅ Reset!');
+}
+
+function renderProducts() {
+  const list = document.getElementById('product-list');
+  const products = DB.products();
+  list.innerHTML = products.map(p => `
+    <div class="flex items-center gap-4 bg-white border border-stone-200 p-4 hover:border-rose-300 transition">
+      <div class="w-16 h-16 flex-shrink-0 overflow-hidden bg-stone-100">
+        <img src="${p.img||''}" class="w-full h-full object-cover" onerror="this.style.display='none'">
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="serif font-bold text-stone-900 truncate">${p.name}</p>
+        <p class="text-xs text-stone-400">${p.material||'—'} ${p.tag?`· <span class="text-rose-600">${p.tag}</span>`:''}</p>
+      </div>
+      <span class="serif text-xl font-bold text-rose-700 px-4">${p.price} KM</span>
+      <div class="flex gap-2">
+        <button onclick="editProduct(${p.id})" class="border border-stone-300 px-4 py-2 text-xs uppercase tracking-widest hover:border-rose-400 hover:text-rose-600 transition">✏ Uredi</button>
+        <button onclick="deleteProduct(${p.id})" class="border border-stone-300 px-3 py-2 text-xs hover:border-red-400 hover:text-red-500 transition">🗑</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderOrders() {
+  const filter = document.getElementById('order-filter').value;
+  let orders = DB.orders();
+  if (filter) orders = orders.filter(o => o.status === filter);
+  const list = document.getElementById('orders-list');
+  if (!orders.length) { list.innerHTML = '<p class="text-stone-400 italic text-center py-8">Nema narudžbi</p>'; return; }
+  const colors = { Nova:'bg-amber-100 text-rose-700', 'U pripremi':'bg-blue-100 text-blue-700', Poslano:'bg-green-100 text-green-700', Otkazano:'bg-red-100 text-red-700' };
+  list.innerHTML = [...orders].reverse().map(o => `
+    <div class="bg-white border border-stone-200 p-5 mb-3 hover:border-rose-300 transition">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-xs text-stone-400 uppercase tracking-widest">${o.id} · ${o.date||''}</span>
+        <div class="flex items-center gap-3">
+          <span class="serif text-xl font-bold text-rose-700">${o.total} KM</span>
+          <span class="text-xs px-3 py-1 rounded-full ${colors[o.status]||'bg-stone-100'}">${o.status}</span>
+        </div>
+      </div>
+      <p class="serif font-bold text-stone-900">${o.name}</p>
+      <p class="text-xs text-stone-500 mb-1">📧 ${o.email} | 📞 ${o.phone||'—'}</p>
+      <p class="text-xs text-stone-500 mb-2">📍 ${o.address}, ${o.country}</p>
+      <p class="text-sm text-stone-600 bg-stone-50 p-2 mb-2">${o.items}</p>
+      <div class="flex gap-2 flex-wrap">
+        ${['Nova','U pripremi','Poslano','Otkazano'].map(s => `
+          <button onclick="setStatus('${o.id}','${s}')" class="px-3 py-1 text-xs uppercase tracking-widest border transition ${o.status===s?'bg-stone-900 text-white border-stone-900':'border-stone-200 text-stone-500 hover:border-rose-400 hover:text-rose-600'}">${s}</button>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function setStatus(id, status) {
+  const orders = DB.orders();
+  const o = orders.find(x => x.id === id);
+  if (o) { o.status = status; DB.saveOrders(orders); renderOrders(); toast('Status → ' + status); }
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.transform = 'translateY(0)';
+  t.style.opacity = '1';
+  clearTimeout(window._t);
+  window._t = setTimeout(() => { t.style.transform = 'translateY(80px)'; t.style.opacity = '0'; }, 3000);
+}
+</script>
+</body>
+</html>
