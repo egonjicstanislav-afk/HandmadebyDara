@@ -364,7 +364,20 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Materijal</label><input id="p-material" type="text" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-rose-400" placeholder="Merino vuna, Toscana"></div>
-              <div><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Link slike (Unsplash URL)</label><input id="p-img" type="text" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-rose-400" placeholder="https://images.unsplash.com/..."></div>
+              <div>
+                <label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Slika torbe</label>
+                <div class="flex items-center gap-3">
+                  <div id="p-img-preview" class="w-16 h-16 flex-shrink-0 bg-stone-100 border border-stone-200 overflow-hidden flex items-center justify-center text-stone-300 text-2xl">🖼</div>
+                  <div class="flex-1">
+                    <label class="cursor-pointer bg-stone-900 text-white px-4 py-2.5 text-xs tracking-widest uppercase hover:bg-rose-700 transition inline-block">
+                      📷 Odaberi fotografiju
+                      <input id="p-img-file" type="file" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+                    </label>
+                    <p class="text-xs text-stone-400 mt-1.5 font-light">JPG, PNG — max 3MB</p>
+                  </div>
+                </div>
+                <input type="hidden" id="p-img">
+              </div>
             </div>
             <div class="mb-5"><label class="text-xs tracking-widest uppercase text-stone-400 block mb-1.5">Opis</label><textarea id="p-desc" rows="2" class="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-rose-400 resize-none" placeholder="Kratki opis modela..."></textarea></div>
             <div class="flex gap-3">
@@ -373,6 +386,9 @@
             </div>
           </div>
           <div id="admin-product-list" class="space-y-3"></div>
+          <div class="mt-6 pt-4 border-t border-stone-200">
+            <button onclick="resetToDefaultProducts()" class="text-xs text-stone-400 hover:text-red-500 transition tracking-widest uppercase border border-stone-200 hover:border-red-300 px-4 py-2">↺ Resetuj na default torbe</button>
+          </div>
         </div>
 
         <!-- ORDERS -->
@@ -406,7 +422,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 // ══ DATA LAYER ══
-const DATA_VERSION = 'v4';
+const DATA_VERSION = 'v5';
 if (localStorage.getItem('dara_version') !== DATA_VERSION) {
   localStorage.removeItem('dara_products');
   localStorage.setItem('dara_version', DATA_VERSION);
@@ -688,12 +704,29 @@ function editProduct(id) {
   document.getElementById('p-material').value = p.material||'';
   document.getElementById('p-tag').value = p.tag||'';
   document.getElementById('p-desc').value = p.desc||'';
+  const prev = document.getElementById('p-img-preview');
+  if (p.img) prev.innerHTML = `<img src="${p.img}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='🖼'">`;
+  else prev.innerHTML = '🖼';
   document.getElementById('product-form-title').textContent = '✏️ Uredi model: ' + p.name;
   document.getElementById('cancel-edit-btn').classList.remove('hidden');
+}
+function handleImageUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 3 * 1024 * 1024) { showToast('⚠️ Slika je prevelika (max 3MB)'); input.value=''; return; }
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    document.getElementById('p-img').value = e.target.result;
+    const preview = document.getElementById('p-img-preview');
+    preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+  };
+  reader.readAsDataURL(file);
 }
 function cancelProductEdit() {
   ['edit-product-id','p-name','p-price','p-img','p-material','p-desc'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('p-tag').value='';
+  document.getElementById('p-img-file').value='';
+  document.getElementById('p-img-preview').innerHTML='🖼';
   document.getElementById('product-form-title').textContent='➕ Dodaj novi model';
   document.getElementById('cancel-edit-btn').classList.add('hidden');
 }
@@ -702,6 +735,12 @@ function deleteProduct(id) {
   DB.saveProducts(DB.products().filter(p=>p.id!==id));
   renderAdminProducts(); renderProducts(); updateAdminStats();
   showToast('🗑️ Model obrisan.');
+}
+function resetToDefaultProducts() {
+  if (!confirm('Resetovati na 8 originalnih Dara torbi? Ovo će obrisati sve promjene.')) return;
+  localStorage.removeItem('dara_products');
+  renderAdminProducts(); renderProducts(); updateAdminStats();
+  showToast('✅ Resetovano na originalne torbe!');
 }
 
 const STATUS_COLORS = { Nova:'bg-amber-100 text-rose-700', 'U pripremi':'bg-blue-100 text-blue-800', Poslano:'bg-green-100 text-green-800', Otkazano:'bg-red-100 text-red-800' };
