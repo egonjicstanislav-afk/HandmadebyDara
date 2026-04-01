@@ -37,7 +37,7 @@
 <nav class="bg-white border-b border-stone-200 sticky top-0 z-40 shadow-sm">
   <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
     <a href="#">
-      <img src="daralogo.png" alt="DARA Handmade Bags" class="h-20 w-auto">
+      <img src="https://zkrifetqrtmmyvsfphyk.supabase.co/storage/v1/object/public/torbe/daralogo.png" alt="DARA Handmade Bags" class="h-20 w-auto">
     </a>
     <div class="hidden md:flex gap-8 text-sm font-light tracking-wide">
       <a href="#kolekcija" class="hover:text-rose-600 transition">Kolekcija</a>
@@ -55,11 +55,11 @@
 <!-- ════ HERO ════ -->
 <header class="relative overflow-hidden bg-rose-50" style="min-height:88vh">
   <div class="absolute inset-0 grid gap-0.5 opacity-35" style="grid-template-columns:1.1fr 1fr 1fr; grid-template-rows:1fr 1fr;">
-    <div class="overflow-hidden" style="grid-row:1/3"><img src="torba_model_1.png" class="w-full h-full object-cover" alt=""></div>
-    <div class="overflow-hidden"><img src="torba_model_3.png" class="w-full h-full object-cover" alt=""></div>
-    <div class="overflow-hidden"><img src="ispringbag.png" class="w-full h-full object-cover" alt=""></div>
-    <div class="overflow-hidden"><img src="torba_model_4.png" class="w-full h-full object-cover" alt=""></div>
-    <div class="overflow-hidden"><img src="sea_bag_2.png" class="w-full h-full object-cover" alt=""></div>
+    <div class="overflow-hidden" style="grid-row:1/3"><img src="https://zkrifetqrtmmyvsfphyk.supabase.co/storage/v1/object/public/torbe/torba_model_1.png" class="w-full h-full object-cover" alt=""></div>
+    <div class="overflow-hidden"><img src="https://zkrifetqrtmmyvsfphyk.supabase.co/storage/v1/object/public/torbe/torba_model_3.png" class="w-full h-full object-cover" alt=""></div>
+    <div class="overflow-hidden"><img src="https://zkrifetqrtmmyvsfphyk.supabase.co/storage/v1/object/public/torbe/ispringbag.png" class="w-full h-full object-cover" alt=""></div>
+    <div class="overflow-hidden"><img src="https://zkrifetqrtmmyvsfphyk.supabase.co/storage/v1/object/public/torbe/torba_model_4.png" class="w-full h-full object-cover" alt=""></div>
+    <div class="overflow-hidden"><img src="https://zkrifetqrtmmyvsfphyk.supabase.co/storage/v1/object/public/torbe/sea_bag_2.png" class="w-full h-full object-cover" alt=""></div>
   </div>
   <div class="absolute inset-0 bg-gradient-to-r from-rose-50 via-rose-50/88 to-pink-50/30"></div>
   <div class="relative z-10 max-w-7xl mx-auto px-6 flex items-center" style="min-height:88vh">
@@ -422,24 +422,25 @@ const EMAILJS_PUBLIC_KEY  = '9iTuxbWZF7FK1mhJL';
 // ══ SUPABASE CONFIG ══
 const SUPABASE_URL = 'https://zkrifetqrtmmyvsfphyk.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprcmlmZXRxcnRtbXl2c2ZwaHlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNTYxNjYsImV4cCI6MjA5MDYzMjE2Nn0._CtxppRXuEATKQJBD4xvpC85oM6tOhtK6VBL-bEbd44';
+const STORAGE_URL = SUPABASE_URL + '/storage/v1/object/public/torbe/';
 const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 // ══ DATA LAYER ══
-const DATA_VERSION = 'v5';
+const DATA_VERSION = 'v6';
 if (localStorage.getItem('dara_version') !== DATA_VERSION) {
   localStorage.removeItem('dara_products');
   localStorage.setItem('dara_version', DATA_VERSION);
 }
 
 const DEFAULT_PRODUCTS = [
-  {id:1,name:"Torba 'Proljeće' — Roze",price:120,img:"torba_model_1.png",material:"Merino vuna, prugasti uzorak",tag:"Bestseller",desc:"Elegantna roze torba s prugastim uzorkom — savršena za proljetne dane među cvijećem."},
-  {id:2,name:"Clutch 'Milano' — Crna",price:85,img:"torba_model_2.png",material:"Kašmir svilena nit, crno-bež",tag:"Popularno",desc:"Minijaturna clutch od svilenog kašmira u klasičnoj crno-bež kombinaciji."},
-  {id:3,name:"Torba 'Livada' — Tirkizna",price:150,img:"torba_model_3.png",material:"Alpaka vuna, tirkizno-bež",tag:"Novo",desc:"Svježa tirkizna torba s prugastim uzorkom — inspirisana cvjetnim livadama u proljeće."},
-  {id:4,name:"Bucket 'Sunce' — Žuta",price:75,img:"torba_model_4.png",material:"Merino vuna, žuto-bež",tag:"",desc:"Lagana bucket torba s Dara znakom — idealna kao poklon ili svakodnevni pratilac."},
-  {id:5,name:"Torba 'Cvjetna' — Smeđa",price:135,img:"springbag2.png",material:"Premium vuna, smeđe pruge",tag:"Limitirano",desc:"Limitirana proljetna kolekcija — smeđa torba s zlatnim okovima, fotografisana među proljetnim cvijećem."},
-  {id:6,name:"Torba 'Tratinčica'",price:110,img:"ispringbag.png",material:"Merino vuna, klasični uzorak",tag:"",desc:"Elegantna torba s ručicom i zlatnim okovima, snimljena na livadi tratinčica."},
-  {id:7,name:"Torba 'More' — Zelena",price:130,img:"sea_bag_2.png",material:"Tamnozelena merino vuna",tag:"Novo",desc:"Čvrsta i elegantna tamnozelena torba — idealna za ljetne dane uz more."},
-  {id:8,name:"Clutch 'Obala'",price:95,img:"sea_bag_4.png",material:"Tamnozelena merino vuna",tag:"",desc:"Kompaktna clutch u tamnozelenom — savršen pratilac za izlaske uz mediteransku obalu."},
+  {id:1,name:"Torba 'Proljeće' — Roze",price:120,img:STORAGE_URL+"torba_model_1.png",material:"Merino vuna, prugasti uzorak",tag:"Bestseller",desc:"Elegantna roze torba s prugastim uzorkom — savršena za proljetne dane među cvijećem."},
+  {id:2,name:"Clutch 'Milano' — Crna",price:85,img:STORAGE_URL+"torba_model_2.png",material:"Kašmir svilena nit, crno-bež",tag:"Popularno",desc:"Minijaturna clutch od svilenog kašmira u klasičnoj crno-bež kombinaciji."},
+  {id:3,name:"Torba 'Livada' — Tirkizna",price:150,img:STORAGE_URL+"torba_model_3.png",material:"Alpaka vuna, tirkizno-bež",tag:"Novo",desc:"Svježa tirkizna torba s prugastim uzorkom — inspirisana cvjetnim livadama u proljeće."},
+  {id:4,name:"Bucket 'Sunce' — Žuta",price:75,img:STORAGE_URL+"torba_model_4.png",material:"Merino vuna, žuto-bež",tag:"",desc:"Lagana bucket torba s Dara znakom — idealna kao poklon ili svakodnevni pratilac."},
+  {id:5,name:"Torba 'Cvjetna' — Smeđa",price:135,img:STORAGE_URL+"springbag2.png",material:"Premium vuna, smeđe pruge",tag:"Limitirano",desc:"Limitirana proljetna kolekcija — smeđa torba s zlatnim okovima, fotografisana među proljetnim cvijećem."},
+  {id:6,name:"Torba 'Tratinčica'",price:110,img:STORAGE_URL+"ispringbag.png",material:"Merino vuna, klasični uzorak",tag:"",desc:"Elegantna torba s ručicom i zlatnim okovima, snimljena na livadi tratinčica."},
+  {id:7,name:"Torba 'More' — Zelena",price:130,img:STORAGE_URL+"sea_bag_2.png",material:"Tamnozelena merino vuna",tag:"Novo",desc:"Čvrsta i elegantna tamnozelena torba — idealna za ljetne dane uz more."},
+  {id:8,name:"Clutch 'Obala'",price:95,img:STORAGE_URL+"sea_bag_4.png",material:"Tamnozelena merino vuna",tag:"",desc:"Kompaktna clutch u tamnozelenom — savršen pratilac za izlaske uz mediteransku obalu."},
 ];
 
 const DB = {
@@ -713,17 +714,28 @@ function editProduct(id) {
   document.getElementById('product-form-title').textContent = '✏️ Uredi model: ' + p.name;
   document.getElementById('cancel-edit-btn').classList.remove('hidden');
 }
-function handleImageUpload(input) {
+async function handleImageUpload(input) {
   const file = input.files[0];
   if (!file) return;
-  if (file.size > 3 * 1024 * 1024) { showToast('⚠️ Slika je prevelika (max 3MB)'); input.value=''; return; }
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    document.getElementById('p-img').value = e.target.result;
+  if (file.size > 5 * 1024 * 1024) { showToast('⚠️ Slika je prevelika (max 5MB)'); input.value=''; return; }
+  showToast('⏳ Uploadujem sliku...');
+  const filename = Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+  try {
+    const res = await fetch(SUPABASE_URL + '/storage/v1/object/torbe/' + filename, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': file.type },
+      body: file
+    });
+    if (!res.ok) throw new Error('Upload failed: ' + res.status);
+    const publicUrl = STORAGE_URL + filename;
+    document.getElementById('p-img').value = publicUrl;
     const preview = document.getElementById('p-img-preview');
-    preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
-  };
-  reader.readAsDataURL(file);
+    preview.innerHTML = `<img src="${publicUrl}" class="w-full h-full object-cover">`;
+    showToast('✅ Slika uploadovana!');
+  } catch(e) {
+    showToast('❌ Greška pri uploadu: ' + e.message);
+    console.error(e);
+  }
 }
 function cancelProductEdit() {
   ['edit-product-id','p-name','p-price','p-img','p-material','p-desc'].forEach(id=>document.getElementById(id).value='');
