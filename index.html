@@ -422,7 +422,7 @@ const EMAILJS_PUBLIC_KEY  = '9iTuxbWZF7FK1mhJL';
 // ══ SUPABASE CONFIG ══
 const SUPABASE_URL = 'https://zkrifetqrtmmyvsfphyk.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprcmlmZXRxcnRtbXl2c2ZwaHlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNTYxNjYsImV4cCI6MjA5MDYzMjE2Nn0._CtxppRXuEATKQJBD4xvpC85oM6tOhtK6VBL-bEbd44';
-const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 // ══ DATA LAYER ══
 const DATA_VERSION = 'v5';
@@ -570,8 +570,8 @@ async function submitOrder(e) {
   };
 
   // Spremi u Supabase
-  if (supabase) {
-    const { error } = await supabase.from('orders').insert([orderData]);
+  if (supabaseClient) {
+    const { error } = await supabaseClient.from('orders').insert([orderData]);
     if (error) console.warn('Supabase error:', error.message);
   }
 
@@ -791,8 +791,9 @@ function showToast(msg) {
 }
 
 // ══ INIT ══
-try { renderProducts(); } catch(e) { console.error('renderProducts failed:', e); }
-try { updateCartBadge(); } catch(e) { console.error('updateCartBadge failed:', e); }
+try { updateCartBadge(); } catch(e) {}
+// Defer renderProducts so Tailwind CDN finishes first
+setTimeout(() => { try { renderProducts(); } catch(e) { console.error('renderProducts error:', e); } }, 50);
 </script>
 </body>
 </html>
