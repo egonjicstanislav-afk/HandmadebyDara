@@ -32,6 +32,26 @@
 <!-- ADMIN PANEL -->
 <div id="panel" class="hidden max-w-5xl mx-auto px-4 py-8">
 
+  <!-- STATS -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white p-5 shadow-sm border border-stone-200">
+      <div class="serif text-4xl font-bold text-stone-900" id="stat-products">0</div>
+      <div class="text-xs tracking-widest uppercase text-stone-400 mt-1">Modela</div>
+    </div>
+    <div class="bg-white p-5 shadow-sm border border-stone-200">
+      <div class="serif text-4xl font-bold text-stone-900" id="stat-orders">0</div>
+      <div class="text-xs tracking-widest uppercase text-stone-400 mt-1">Narudžbi</div>
+    </div>
+    <div class="bg-rose-50 p-5 shadow-sm border border-rose-200">
+      <div class="serif text-4xl font-bold text-rose-700" id="stat-pending">0</div>
+      <div class="text-xs tracking-widest uppercase text-rose-400 mt-1">Na čekanju</div>
+    </div>
+    <div class="bg-white p-5 shadow-sm border border-stone-200">
+      <div class="serif text-4xl font-bold text-stone-900" id="stat-revenue">0</div>
+      <div class="text-xs tracking-widest uppercase text-stone-400 mt-1">Prihod (KM)</div>
+    </div>
+  </div>
+
   <!-- TABS -->
   <div class="flex gap-1 mb-6 border-b border-stone-300">
     <button onclick="tab('products')" id="t-products" class="px-6 py-3 text-xs tracking-widest uppercase font-bold text-rose-600 border-b-2 border-rose-600">👜 Proizvodi</button>
@@ -148,6 +168,7 @@ function login() {
     document.getElementById('panel').classList.remove('hidden');
     renderProducts();
     renderOrders();
+    updateStats();
   } else {
     document.getElementById('login-err').classList.remove('hidden');
     document.getElementById('pwd').value = '';
@@ -204,6 +225,7 @@ function saveProduct() {
   DB.save(products);
   cancelEdit();
   renderProducts();
+  updateStats();
 }
 
 function editProduct(id) {
@@ -236,6 +258,7 @@ function deleteProduct(id) {
   if (!confirm('Obrisati ovaj model?')) return;
   DB.save(DB.products().filter(p => p.id !== id));
   renderProducts();
+  updateStats();
   toast('🗑️ Obrisano');
 }
 
@@ -244,6 +267,15 @@ function resetProducts() {
   localStorage.removeItem('dara_products');
   renderProducts();
   toast('✅ Reset!');
+}
+
+function updateStats() {
+  const products = DB.products();
+  const orders = DB.orders();
+  document.getElementById('stat-products').textContent = products.length;
+  document.getElementById('stat-orders').textContent = orders.length;
+  document.getElementById('stat-pending').textContent = orders.filter(o => o.status === 'Nova' || o.status === 'U pripremi').length;
+  document.getElementById('stat-revenue').textContent = orders.reduce((s, o) => s + (o.total || 0), 0);
 }
 
 function renderProducts() {
@@ -299,7 +331,7 @@ function renderOrders() {
 function setStatus(id, status) {
   const orders = DB.orders();
   const o = orders.find(x => x.id === id);
-  if (o) { o.status = status; DB.saveOrders(orders); renderOrders(); toast('Status → ' + status); }
+  if (o) { o.status = status; DB.saveOrders(orders); renderOrders(); updateStats(); toast('Status → ' + status); }
 }
 
 function toast(msg) {
