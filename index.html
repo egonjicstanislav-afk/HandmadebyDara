@@ -6,6 +6,7 @@
 <title>Handmade by DARA | Unikatne pletene torbe</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
   body { font-family: 'Lato', sans-serif; }
@@ -394,9 +395,14 @@
   style="transform:translateY(80px);opacity:0;transition:all .3s ease">—</div>
 
 <script>
+// ══ EMAILJS CONFIG ══
+const EMAILJS_SERVICE_ID  = 'EMAILJS_SERVICE';
+const EMAILJS_TEMPLATE_ID = 'EMAILJS_TEMPLATE';
+const EMAILJS_PUBLIC_KEY  = 'EMAILJS_PUBLIC_KEY';
+
 // ══ SUPABASE CONFIG ══
 const SUPABASE_URL = 'https://zkrifetqrtmmyvsfphyk.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_OIPdoKjOkaVZbnlgQCllcQ_5qcj_I6z';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprcmlmZXRxcnRtbXl2c2ZwaHlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNTYxNjYsImV4cCI6MjA5MDYzMjE2Nn0._CtxppRXuEATKQJBD4xvpC85oM6tOhtK6VBL-bEbd44';
 const { createClient } = window.supabase;
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -552,6 +558,19 @@ async function submitOrder(e) {
     showToast(`❌ Greška: ${error.message}`);
     return;
   }
+
+  // Pošalji email notifikaciju
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    order_name:    orderData.name,
+    order_email:   orderData.email,
+    order_phone:   orderData.phone,
+    order_address: orderData.address,
+    order_country: orderData.country,
+    order_items:   orderData.items,
+    order_total:   orderData.total + ' KM',
+    order_note:    orderData.note || '—',
+    to_email:      'egonjicstanislav@gmail.com'
+  }, EMAILJS_PUBLIC_KEY).catch(err => console.warn('Email error:', err));
 
   // Spremi u localStorage za admin panel
   const orders = DB.orders();
