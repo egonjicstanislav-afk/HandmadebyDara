@@ -581,17 +581,26 @@ async function submitOrder(e) {
   }
 
   // Pošalji email notifikaciju
-  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-    order_name:    orderData.name,
-    order_email:   orderData.email,
-    order_phone:   orderData.phone,
-    order_address: orderData.address,
-    order_country: orderData.country,
-    order_items:   orderData.items,
-    order_total:   orderData.total + ' KM',
-    order_note:    orderData.note || '—',
-    to_email:      'egonjicstanislav@gmail.com'
-  }, EMAILJS_PUBLIC_KEY).catch(err => console.warn('Email error:', err));
+  if (typeof emailjs !== 'undefined') {
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      order_name:    orderData.name,
+      order_email:   orderData.email,
+      order_phone:   orderData.phone,
+      order_address: orderData.address,
+      order_country: orderData.country,
+      order_items:   orderData.items,
+      order_total:   orderData.total + ' KM',
+      order_note:    orderData.note || '—',
+      to_email:      'egonjicstanislav@gmail.com'
+    }, { publicKey: EMAILJS_PUBLIC_KEY })
+    .then(() => console.log('Email poslan uspješno'))
+    .catch(err => {
+      console.error('EmailJS greška:', err);
+      showToast('⚠️ Email notifikacija nije poslana. Provjeri EmailJS dashboard.');
+    });
+  } else {
+    console.warn('EmailJS nije učitan');
+  }
 
   // Spremi u localStorage za admin panel
   const orders = DB.orders();
