@@ -717,7 +717,10 @@ function editProduct(id) {
   document.getElementById('product-form-title').textContent = '✏️ Uredi model: ' + p.name;
   document.getElementById('cancel-edit-btn').classList.remove('hidden');
 }
+let _pickerOpen = false;
 async function pickImageFile() {
+  if (_pickerOpen) return;
+  _pickerOpen = true;
   try {
     const [handle] = await window.showOpenFilePicker({
       types: [{ description: 'Slike', accept: { 'image/*': ['.jpg','.jpeg','.png','.webp','.gif'] } }],
@@ -727,6 +730,8 @@ async function pickImageFile() {
     await uploadImageFile(file);
   } catch(e) {
     if (e.name !== 'AbortError') showToast('❌ ' + e.message);
+  } finally {
+    _pickerOpen = false;
   }
 }
 async function handleImageDrop(event) {
